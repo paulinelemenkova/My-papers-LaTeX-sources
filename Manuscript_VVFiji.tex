@@ -1,0 +1,237 @@
+\documentclass[USenglish]{article}
+
+\usepackage[utf8]{inputenc}%(only for the pdftex engine)
+\usepackage[T2A,T1]{fontenc}
+%\RequirePackage[no-math]{fontspec}[2017/03/31]%(only for the luatex or the xetex engine)
+\usepackage[small]{dgruyter}
+\usepackage{microtype}
+\usepackage{gensymb} % degree symbol
+\usepackage{amsmath}
+\usepackage[svgnames,table]{xcolor}
+\usepackage{color}
+\usepackage{float} % figures placement
+
+\usepackage[
+	backend=bibtex,
+%	style=nature,
+	style = numeric,
+	maxbibnames=2,
+	citestyle=authoryear,
+%	citestyle=numeric,
+	giveninits=true,
+	isbn=true,
+	url=true,
+	natbib=true, %\citep \citet
+	backrefstyle=none,
+	indexing=cite,
+	]
+	{biblatex}
+\addbibresource{Manuscript_Fiji.bib}
+
+
+\begin{document}
+
+%  \articletype{Original Research Article}
+
+  \author*[1]{Polina LEMENKOVA}
+
+  \runningauthor{P. Lemenkova}
+  \affil[1]{Ocean University of China, College of Marine Geo-sciences, 38 Songling Rd, Laoshan 266100, Qingdao, People’s Republic of China. ORCID ID: 0000-0002-5759-1089. Tel.: +861768554160. E-mail: pauline.lemenkova@gmail.com}
+  \title{\huge Geophysical Modelling of the Vityaz and Vanuatu Trenches by GMT: South Pacific Ocean, Fiji}
+  \runningtitle{Geophysical Modelling of Vityaz and Vanuatu Trenches, Fiji}
+%  \subtitle{...}
+  \abstract{
+The study is geographically focused on the two deep-sea trenches: Vanuatu and Vitaz, Fiji Basin, East Australia, located in the area of the double convergent complex boundary where Pacific Plate subducts under the Indian-Australian plate westwards, and Indo-Australian plate beneath the North Fiji back-arc basin northeastwards. Such complex geophysical settings results in the formation of the trenches, high seismicity, geodynamic complexity and instability of the region. Current work aimed at geophysical modelling and comparative statistical analysis of the bathymetry and geomorphology of the two trenches through cartographic modelling, visualizing geophysical, tectonic and geological settings, 2D and 3D modelling.
+Technically, the methodology of this work is based on the Generic Mapping Tools (GMT). Raster grids include GEBCO, ETOPO1 and ETOPO5. Histogram topographic equalization (equalized, normalized, quadratic) was done using module 'grdhisteq'. Modelling geoid and gravity was plotted based on EGM96 by sequence of GMT modules (img2grd, grd2cpt, grdimage, pscoast, makecpt, grdcontour, psbasemap). The cross-spectrals of 2D binary raster grids were compared and their coherency plotted by 'grdfft'. The automated cross-sectioning  was done using 'grdtrack'. The results include  modeled profile transects visualizing trenches asymmetry, their bathymetric and geomorphic variations. Vityaz Trench is shallower with depths <-6,100 m, has 'bell-shape' data distribution with two peaks at ranges -3,500 to -3,700 m, and  -4,800 to -5,000 m. Vanuatu Trench reaches up to -7,000 m with majority of values within -5,000 to -3,000 m, even data distribution with depth increasing at -2,200 to -800 m, total 1,353 samples. Geomorphic form of both trenches varies: Vityaz has more flat wide bottom similar to a trough, steeper gradient eastern slope. Vanuatu has V-form classic shape with gentle shapes on both slopes. Selected segment of the Vityaz has shallower depths with maximal <-5,000 m while Vanuatu is deeper (-6,000 m). Cartographic functionality of the GMT is presented by four various cartographic projections: Mercator, Behrman cylindrical, Cylindrical Stereographic, Hammer retroazimuthal. 3D modelling was performed using GMT module 'grdview'. Trenches were visualized and rotated at 160\degree /45\degree azimuth. Current work demonstrated geophysical, geological and tectonic setting in the study area, that are the most important causes of the ocean trench formation, specifically in trenches bordering the Pacific Ocean as part of the 'Ring of Fire', where complex movements of the tectonic plates take place. Presented maps, 2D and 3D models and graphics are plotted and visualized by GMT with selected code snippets explained. 
+  }
+  \keywords{GMT, Mapping, Cartography, Modelling, Vityaz Trench, Vanuatu Trench, Fiji, Pacific Ocean, Marine Geology, Geophysics, Gravity}
+  \classification[PACS]{...}
+ % \communicated{...}
+ % \dedication{...}
+  \received{...}
+  \accepted{...}
+  \journalname{Contributions to Geophysics and Geodesy}
+  \journalyear{...}
+  \journalvolume{..}
+  \journalissue{..}
+  \startpage{1}
+  \aop
+\DOI{Editor to enter DOI}
+
+\maketitle
+
+\section{Introduction}
+
+The geographic focus of the study area is located in Fiji Basin, East Australia, two oceanic trenches: Vanuatu (New Hebrides) and Vityaz (Fig. \ref{fig1}). The Vanuatu (New Hebrides) trench-arc system divides the New Hebrides back-arc troughs and the active North Fiji marginal basin. The Vanuatu arc stretches ca. 1200 km in the SW Pacific Ocean located in the area with coordinates 10\degree S-23\degree S, 160\degree-180\degree E  (Fig. \ref{fig1}). Narrow Vanuatu Trench is bordered by the Vanuatu volcanic archipelago (alternative former spelling: New Hebrides), which is a submersed part of an oceanic island arc that extends  between 12\degree S and 25\degree S, between the Torres to Hunter Islands \citep{JeanBaptisteetal2016}, 1000 km to the northwest of the Kermadec Trench. The geomorphology of the Vanuatu (New Hebrides) Trench is reported \citep{HeezenHollister} to have masses of rubble, talus slopes and fragmented outcrops. \\
+Vanuatu Trench is a trench of ca. 7156 m. Relative to other neighbour trenches (Kermadec, Mariana), it is warmest, and underlies intermediate bio-productivity \citep{Linleyetal2017}. The Vanuatu Trench has developed in a situation of complex tectonic settings. More specifically, it is located in a double convergent boundary between the Australian and Pacific tectonic plates \citep{Beaumais}. Tectonic development of the Vanuatu Trench has two distinct subduction stages \citep{JeanBaptisteetal2016}: 1) subduction of the Pacific Plate under the Indian-Australian plate westward direction; 2) subduction of the Indo-Australian plate beneath the North Fiji back-arc basin at the margin of the Pacific Plate, north-eastwards  direction. Therefore, the convergence is marked by two opposite subduction zones, defined by the Vanuatu Trench to the west and the Tonga Trench to the east, resulting in an asymmetric opening of the North Fiji back-arc basin \citep{Auzende}. 
+
+\begin{figure}[H]
+\centering
+	\includegraphics[width=12cm]{Fig-1.jpg}
+\caption{Topographic map of the Fiji Basin, East Australia.}\label{fig1}
+\end{figure}
+
+Hence, the origin of the New Hebrides trench-arc system is caused by the Indo-Australian subducting tectonic plate and a subduction of the d'Entrecasteaux ridge \cite{Charvis}. Previous surveys on bathymetry, magnetism, seismicity and focal mechanismin the region between the southern New Hebrides Arc and North Fiji Basin enlighten the geodynamic complexity and  instability of the area \citep{Mailletetal1989}. An an active volcano Mt. Yasur, is located in Tanna Island of the Vanuatu arc \citep{Spina}. Further discussions on the geologic setting of the Vanuatu Trench exist in relevant literature (\cite{Monzieretal1997}; \cite{Sorbadere}; \cite{Turtle}; \cite{Louat}; \cite{Bourrouilh}; \cite{PilletPelletier}), where particular attention is paid to geochemistry, mineralogy, magmatism, volcanology, seismicity and tectonics of the region. 
+ 
+\begin{figure}[H]
+\centering
+	\includegraphics[width=12cm]{Fig-2.jpg}
+\caption{Geologic setting of the study area}\label{fig2}
+\end{figure}
+
+The New Hebrides island arc consists of numerous volcanoes that frequently form islands situated in a tectonically complex arc-backarc system (\cite{Beier}, \cite{Calmantetal2003}), Fig. \ref{fig2}. The three flat, mainly covered by forests, islands of Mar\'{e}, Lifou and Ouv\'{e}a may illustrate tectonic deformation at various distances from the Vanuatu Trench. Loyalty Islands serve as tension cracks resulting from the elastic bulging of the Australian plate before its subduction at the Vanuatu Trench \citep{Bogdanovetal2011}. The New Hebrides archipelago is a complex reversed-arc system that divided into four major volcanic provinces \citep{Carney}: 
+
+\begin{enumerate}
+    \item Western Belt is an Early Miocene extinct volcanic arc in the frontal arc; 
+    \item The Eastern Belt formed in the Middle Miocene, a calc-alkaline arc volcanism;
+    \item Marginal Province submerged in the Early Pleistocene is shown by volcanic activity;
+    \item The Central Chain is a present volcanic line continues Marginal Province volcanism;
+\end{enumerate}
+
+The anomalous morphology of the central New Hebrides arc is caused by the  subduction of the D’Entrecasteaux aseismic ridge which enters the central part of the Vanuatu Trench. Besides, there is a deformation distributed over numerous spreading ridges in Lau and North Fiji back-arc basins. Geometry of Lau and North Fiji back-arc basins and segmentation of the New Hebrides arc are significantly influenced by the subduction of aseismic ridges: Louisville, D’Entrecasteaux and Loyalty \citep{Pelletieretal1998} (Fig. \ref{fig2}). The basaltic rocks from the central and southern islands of the New Hebrides (Aneityum, Tanna, Erromango, Efate, Emae, Tongoa and Epi), have geochemical features typical of island arc volcanics. The basalts from Futuna island located farther from the trench display characteristics typical of calc-alkaline rocks \citep{Dupuy}.  
+
+\section{Methods}
+Current paper is based on using Generic Mapping Tools (GMT) cartographic scripting toolset developed by \cite{WesselSmith1998}. Examples of using GMT in marine bathymetric mapping and data processing (\cite{Gauger2007}, \cite{Kuhnetal2006}) prove its cartographic functionality and effectiveness. 
+
+\subsection{Histogram equalization on the topography grids}
+Topographic data used in this research include ETOPO1 and GEBCO grid containing elevation data (topography/bathymetry) for the Earth. More information about GEBCO can be further found in relevant literature (\cite{Mayeretal2018}; \cite{Monahan2004}; \cite{AmanteEakins2009})
+The GEBCO Gazetteer was referred to for the names of the submarine features and structures \citep{IHOIOC2012}. The histogram equalization on the topography grids is illustrated on Fig. \ref{fig3}. The four subplots of the topographic histogram equalization were plotted using GMT main module 'grdhisteq' which is used to find the data values dividing two grid files into patches of equal area. Hence, 'grdhisteq' performs sort of histogram equalization of a raster images using this code snippet: gmt grdhisteq vt\_relief.nc -Gout.nc -C16, and for other maps: gmt makecpt -Crainbow -T0/15/1 > c.cpt, and gmt makecpt -Crainbow -T0/15 > q.cpt. 
+
+\begin{figure}[H]
+\centering
+	\includegraphics[width=12cm]{Fig-3.jpg}
+\caption{Histogram equalization of the topography grids.}\label{fig3}
+\end{figure}
+
+More specifically, using 'grdhisteq', the ASCII list of the data values which divide the range of the initial raster data into cells segments that has been written to an output file. In this case, a -C16 argument defines 16 cells. The resulting raster grid has an equal area in the image. Using 'makecpt' GMT module this output was then colored using a build a CPT by following code: gmt makecpt -Crainbow -T-11000/3000 > t.cpt. The explanations for the subplot with four maps (Fig. \ref{fig3}) is as follows:
+\begin{enumerate}
+    \item The original map (top left) shows the initial raster with applied artificial cpt 'rainbow' to highlight the changes in elevation (gmt makecpt -Crainbow -T-11000/3000 > t.cpt). 
+    \item Second to it, (top right) is the equalized raster grid.
+    \item Third to it, (low left) is the normalized raster grid which was derived using -N argument that stands for Gaussian output aimed to receive data with smooth Gaussian distribution. In this case, the default standard normal scores was used for grid normalization. However, it is possible to make an output grid with scores placed within the <-1,+1> range. 
+    \item Finally, the fourth grid (shows low right) on Fig. \ref{fig3} is a quadratic equalization that has been plotted using following code: gmt grdhisteq vt\_relief.nc -Gout.nc -Q. Here, the '-Q' argument stands for the quadratic output selecting quadratic histogram equalization, unlike the default linear one.
+\end{enumerate}
+Here, the '-T-11000/3000' arguments means the range of the topographic heights/depths elevations. Then, the image was visualized using 'grdimage' module using following code: gmt grdimage vt\_relief.nc -I+a45+nt1 -Ct.cpt -JM3i -Y6i -K -P -B10 -BWSne > \$ps. In this code, the '-Ct.cpt' argument stands for the color palette (cpt) created in the previous step, the '-JM3i' arguments explains the Mercator projection with 3 inches width; '-Y6i' argument plots the map with 6 inches distance from the previous one by Y axis; '-K' argument refers to the continuation of the code, and '-P' is a portrait orientation of the layout. The annotation was added using Unix 'echo' prog: echo "185 -5 Original" | gmt pstext -Rvt\_relief.nc -J -O -K -F+jBL+f12p -T -Gwhite\@10 -Dj0.1i >> \$ps. Secondly, the 'grdhisteq' GMT module enables to write a raster grid with statistics based on cumulative distribution function. That means, after applying the 'grdhisteq'  module, the output raster file has relative elevations in the same locations as the input file (that is, x,y). However, the values are modified to reflect their place in cumulative distribution with reference to the initial input file. This illustrates the principle of the equalization of the topographic grids by GMT module 'grdhisteq', as visualized on Fig. \ref{fig3}. 
+
+\subsection{Modelling geophysical settings of gravity and geoid}
+
+Modelling geoid and gravity was plotted using sequence of several GMT modules (to be more specific: img2grd, grd2cpt, grdimage, pscoast, makecpt, grdcontour and psbasemap) based on the existing methodology \citep{Lemenkova201995}. The data used rely on the global marine gravity model from CryoSat-2 and Jason-1 and free-air gravity grids produced by Scripps Institution of Oceanography-University of California San Diego \citep{Sandwelletal2014} and placed in public domain: grav/grav\_27.1.img and grav/curv\_27.1.img via topex.ucsd.edu. 
+
+\begin{figure}[H]
+\centering
+	\includegraphics[width=12cm]{Fig-4.jpg}
+\caption{Marine free-air gravity anomaly: Fiji Basin, Vanuatu and Vityaz Trenches, Australia.}\label{fig4}
+\end{figure}
+
+The satellite missions have provided marine free-air gravity and vertical gravity gradient data available for the study area and used for mapping (Fig. \ref{fig4} and Fig. \ref{fig5}). The Earth gravitational models derived from CryoSat-2 and Jason-1 data provide marine gravity field with a spatial resolution of 1\degree . The gravity data from these missions were used to visualize data and compare coherency between the marine free-air gravity and vertical gravity anomaly in the region of Fiji Basin (Fig. \ref{fig6}). 
+
+\begin{figure}[H]
+\centering
+	\includegraphics[width=12cm]{Fig-5.jpg}
+\caption{Geoid model: Fiji Basin. Hammer retroazimuthal projection (southern hemisphere)}\label{fig5}
+\end{figure}
+
+The geoid model is a complex function that depends on various geophysical phenomena, such as permanent Earth tide, postglacial land uplift, sea level changes, polar drift and other parameters (\cite{Ekman1995}, \cite{Bursa1995}, \cite{Heiskanen}). Therefore, there are various existing gravity and geoid concepts that originate from differing numerical applications and approaches in processing of the permanent Earth's tide \citep{Ekman1989}. The geoid data grids used for current study and retrieved from the public website (https://earth-info.nga.mil/GandG/wgs84/gravitymod/egm96/egm96.html) are based on the Earth Gravitational Model (EGM96 with n=m=360) and WGS 84 reference system \citep{Malys1996}: geoid.egm96.grd. The model is based on the fully-normalized, unitless spherical harmonic coefficients. The data are made public by the National Imagery and Mapping Agency (NIMA), the NASA Goddard Space Flight Center (GSFC), and the Ohio State University \citep{Rapp}. The EGM96 geopotential model is a spherical harmonic model of the Earth's gravitational potential complete to degree and order 360 \citep{Lemoineetal1998}. The EGM96 contains fully-normalized, unitless spherical harmonic coefficients and their standard deviations for a gravitational model from 2\degree , to 360\degree. These coefficients are consistent with scaling values of gravitational models and "a" appearing in 
+the following equation \citep{Rapp1994}: \\
+$V(r,th,lam)=GM/r*(1+\sum(degree)(a/r)**n \sum(order) Cnm*Ynm(th,lam))$ \\
+The data are based on the surface gravity data covering various regions of the globe including southern hemisphere. To plot the geoid and gravity models of the Fiji Basin and Pacific/Indo-Australian plates subduction zone, the grids of the geoid and free air gravity anomalies of the region have been downloaded and extracted as a subset of img file using following GMT code snippet: img2grd grav\_27.1.img -R145/200/-39/0 -Ggrav.grd -T1 -I1 -E -S0.1 -V. Here the grav\_27.1.img is the input file, the '-Ggrav.grd' defines the output file. The main module here is the 'img2grd' which reads an .img format file, extracts a subset, and converts it to .grd file. The '-E' argument was used to force the final grid to cover the same region as requested with -R (which is a  region defined by coordinates in West East South North (WESN) systems, here: 145/200/-39/0 in degrees). \\
+The final region was hence a direct projection of the original Mercator region andwas extended slightly beyond the requested latitude range of Fiji Basin region: 145\degree 200\degree -39\degree 0\degree , Fig. \ref{fig4}. Furthermore, the '-I1' indicate minutes as the width of an input img pixel in minutes of longitude, which is here equal to 1 according to the resolution. The -S0.1 GMT argument multiplies the img file values by scale before storing it in .grd file. Although the default value is 1.0, here the 0.1 was taken for the free-air gravity files in mGal*10 to get the mGal, according to the descriptions of the technical specifications of GMT \citep{Wesseletal2019}. The 'T1' argument of GMT type handles the encoding of constraint information. Namely, here the '-T1' gets data values at all points, while, for instance, type = 0 would indicate that no such information is encoded in the .img file. The '-V' argument is a technical characteristics explaining the verbosity level, that is, showing the level of details in the messages reporting errors to the user/cartographer while executing the GMT script. The two grids that were operated on were first received using 'img2grd' GMT module by following code: img2grd curv\_27.1.img -R162.5/181.5/-24/-6.0 -Gvvtc\_curv.grd -T1 -I1 -E -S0.01 -V and img2grd grav\_27.1.img -R162.5/181.5/-24/-6.0 -Gvvtc\_grav.grd -T1 -I1 -E -S0.1 -V. 
+
+\begin{figure}[H]
+\centering
+	\includegraphics[width=12cm]{Fig-6.jpg}
+\caption{Modelling geophysical settings: marine free-air gravity and vertical gravity anomaly.}\label{fig6}
+\end{figure}
+
+Afterwards, the coherency between the two grids of free-air gravity and vertical gradient were plotted using the GMT module 'grdfft'. The 'grdfft' module performs mathematical operations on the grids in the wavenumber or frequency domain. The main algorithms is the following: the 'grdfft' module inputs the 2D grids to perform operations in their frequency domains using Fast Fourier Transform, and then transforms the raster grids back to the space domain using following code: gmt grdfft vvtc\_grav.grd vvtc\_curv.grd -E+wk+n -Na+d+wtmp > cross\_spectra.txt. \\
+The horizontal dimensions of the grid are are in meters. \\
+Here, the 'vvtc\_grav.grd' and 'vvtc\_curv.grd' are two 2D binary raster grids that were compared for cross-spectral operations (Fig. \ref{fig6}). The '-E' argument estimates power spectrum in the radial direction. Specifically, here the '+w' in expression '-E+wk+n' means writing wavelengths and '-k' was appended to scale wavelengths from meter to km, the '+n' was appended to normalize the output so that the mean spectral values per frequency were reported. \\
+Since the '-N' argument was used with several options, the explanations are as follows. The 'a' option was used to let grdfft module to select dimensions achieving the most accurate result; the '+d' option was used to detrend data, that is to remove best-fitting linear trend; the '' was used to press grdfft use the least work memory; 'p' was used to save the polar form of magnitude to the output table; '+t' option was used to change percentage via width while performing tapering of the data edge to the grid edge. The output grids were then visualized using GMT module 'grdimage', 'psbasemap' and 'psxy' for coherency graph on the top of the Fig. \ref{fig6}. Other options are explained in detailed by \citet{Wesseletal2019}.
+
+\subsection{3D Modelling}
+
+Cartographic mapping and data in 2D dimensions reveal the physical shape, structures and visualization of the objects, but 3D dimensional visualization is a useful addition for a visual analysis of the geomorphic shape of the objects. In view of this, the local 3D model atop of the planar mode of the ETOPO1 for the both trenches were plotted to visualize their form and their comparative view using GMT module 'grdview'. The methodology of the 3D modelling using GMT approach, well described by \citet{Wesseletal2019} and tested in \citet{Lemenkova201995}, was adopted for the current study with relevant coordinates using following GMT code for the Vanuatu Trench: 
+grdview vv3d\_relief.nc -J -R -JZ4c -CrainbowVVT.cpt -p160/45 -Qsm -N-9000+glightgray -Wm0.1p -Wf0.1p,red -Wc0.1p,magenta -B5/5/3000:"Bathymetry and topography (m)":nEswZ -Y6.5c >> \$ps. The resulting 3D models are shown on Fig. \ref{fig7}.
+
+\begin{figure}[H]
+\centering
+	\includegraphics[width=12cm]{Fig-7.jpg}
+\caption{3D Modelling.}\label{fig7}
+\end{figure}
+
+The data were initially extracted from the ETOPO5 grid using the following (snippet for the Vanuatu Trench):
+gmt grdcut earth\_relief\_05m.grd -R160/170/-25/-10 -Gvv3d\_relief.nc. The ETOPO5 was selected to plot the 3D with aim to reduce the grid size and hence to save computer memory space. \\
+The next step of the 3D modelling is a calculation of the regular 3D grid mesh using GMT parameters of the 'grdview' module. The dimension of the grid was chosen in a way which ensures that every point of the trench axis is located within the grid boundaries. Therefore, the coordinates for Vityaz Trench were selected as 163\degree 173\degree -15\degree 0\degree and for the Vanuatu Trench: 160\degree 170\degree -25\degree -10\degree \space\\
+Visualization parameters of the 3D models can be summarized as follows. Grid extent was in 160/45 azimuthal direction rotation with the grid ranges from 160\degree to 173\degree for both grids, in latitudinal direction from -25\degree to 0\degree, and in vertical direction from -9,000 km depths up to 1000 km. On 'Z' argument the grid was extended by 4cm as a visual distance between the 3D and basemap 2D, to enable interpreted them better. 
+Data: geoid field data of the 2D map were taken from the ETOPO1 dataset are given with resolution of 1 arc minute using following code: $gmt grdcontour earth\_relief\_01m.grd -JM6.0c -R160/170/-25/-10 -p160/45 -C500 -Gd6c -Wthinnest,dimgray -Y5.5c -P -K > \$ps$. In order to ensure that grids are visually depict geomorphic shapes of the surfaces, the '-Qsm' argument was selected to specify 's' for the surface plot, and 'm' to have mesh lines drawn on top of surface. For the vertical component, an option '-N-9000+glightgray' was selected to draw a plane at the -9,000 m level of bathymetry. Final 3D model of the two subplots is shown on Fig. \ref{fig7}.
+
+\subsection{Modelling geomorphic cross-section transects}
+
+There are reported experiences in cartographic automatization aimed to improve and facilitate manual handmade digitizing of the bathymetric maps \citep{Schenke2008}. Cross-section profiling is a common technique used in geosciences to receive a sample of the selected segment in the study area and analyze variability of the studied elements along the track. Examples of the cross-section area presented: DEM cross-profile \citep{Yulianto}. \\ 
+The GMT proposes solution in automated cross-section digitizing that results in a series of the profile transects across the trench. Bathymetric data (depths) for samples were extracted during cross-section profiling using a 'grdtrack' GMT module technique of  sampling raster grids for creating orthogonal cross-profiles. The methodology used in current research is adopted from the existing in \citet{WesselSmith2018} and in the technical references of the GMT manuals \citet{Wesseletal2019} and tested in \cite{Lemenkova201994}. \\
+Deriving hadal trench geomorphology data from the 2D bathymetric maps, albeit it at very high resolution, can pose problems of subjective interpretation as converting isolines into the steepness and gradient requires certain cartographic interpretation. There are also differences caused by seamounts and seafloor obstructing curvatures especially at the curved trenches, such as Vanuatu. Besides, pixel size at a course resolution bathymetric maps (e.g. ETOPO5) may reduce accuracy. Therefore, having bathymetric high-resolution data is very important to be able to map trench shape in a cross-section and to identify clearly its geomorphology.
+
+\begin{figure}[H]
+\centering
+	\includegraphics[width=12cm]{Fig-8.jpg}
+\caption{Cross-section transects modelling.}\label{fig8}
+\end{figure}
+
+For these reasons, the GEBCO bathymetric grid was taken to model and digitize a series of the cross-section profiles along two trenches: Vityaz and Vanuatu (Fig. \ref{fig8}) and to plot the graphs using retrieved tables (Fig. \ref{fig9}). Cross-section profiles were drawn across the two trenches axes, 400 km long, spaced 20 km. The depths of the trenches are measured at 2km along the profile going in a perpendicular direction, at equal spacing relative to the profile length (which is 400 km for each). These profiles were then averaged by the median values using GMT module 'grdtrack' through the following code: gmt grdtrack trenchVTs.txt -Gvvt\_relief.nc -C400k/2k/20k -Sm+sstackVTs.txt > tableVTs.txt (example is given for the Vanuatu Trench). 
+
+\begin{figure}[H]
+\centering
+	\includegraphics[width=12cm]{Fig-9.jpg}
+\caption{Graphs showing geomorphic slope models in transects.}\label{fig9}
+\end{figure}
+
+Two methods were tested in visualizing the profile: median and the mean (by GMT arguments '-Sm' for median and '-Sa' for mean). Of these two, the median was finally selected as the best one representing the empirical nature of the trench's shape. Namely, although the 'mean' method shows fine interpolation accuracy, the 'median' approach is more favorable, as the performance and visual representation of the trench lies within a reasonable reflection of the submarine geomorphology. On the contrary, mean values are notable for smoothing the splines rather as a mathematical functions which lesser reflects the geographic phenomena of the objects. The uncertainties of the actual geomorphology are expected to exceed the theoretical interpolation of the actual geomorphology representated on the graphs. Hence the shape of the trenches is highlighted as median using '-Sm' argument, as visualized by red line on Fig. \ref{fig9}. \\
+The sampling was repeated automatically for the whole length of the trench's selected segment (visualized on Fig. \ref{fig8}). Profiles were then statistically modeled to visualize median and error bars (Fig. \ref{fig9}, red line for median), and the bathymetric depths were statistically computed using 'pshistogram' GMT module described in the following section. The extend for the spatial distribution of the depths interpolation as a median (red line) and error bars is shown in Fig. \ref{fig9}) for the whole extend of each trench (-200 to 200 km).
+
+\subsection{Statistical Analysis}
+
+Geostatistical assessment is important step in the data analysis common in geographic studies. The approaches to the data analysis, visualization and geological modelling are diverse. To mention some of these various approaches: tomographic, seismic and bathymetric 2D and 3D modelling, geologic cross-sectioning \citep{Contrerasetal2010}, seismic cross-section profiling \citep{ContrerasReyesCarrizo2011}, R programming language for analysis of correlation between variables (\cite{Laceyetal2018}, \cite{Lemenkova201901}), ArcGIS base assessment and calculation of measured data (\cite{Klauco2013a}, \cite{Lemenkova2012j}), Python statistical libraries, such as Matplotlib, NumPy, SciPy, Seaborn, Pandas, StatsModels (e.g. \cite{Lemenkova201905}; \cite{Lemenkova201989}). Using various software for statistical analysis of geodata can be illustrated by SPSS \citep{Lemenkova201990}, Gretl or GnuPlot \citep{Lemenkova2011}. 
+
+\begin{figure}[H]
+\centering
+	\includegraphics[width=12cm]{Fig-10.jpg}
+\caption{Comparative statistical analysis of the Vityaz and Vanuatu Trenches.}\label{fig10}
+\end{figure}
+
+In view of a variety of the approaches and methods illustrated above, the advantage of the GMT consists in its embedded statistical module that enable to visualize data and to perform descriptive statistical visualization and modelling as histograms showing data distribution. The statistical evaluations of the differences for the bathymetry by Vanuatu and Vityaz trenches and interpolation approaches are shown on a Fig. \ref{fig10} with the commentaries in the 'Results' section. 
+
+\section{Results}
+
+The statistical histograms for the transecting profiles of the Vanuatu and Vityaz trenches are visualized on Fig. \ref{fig10}. Modelling cross-section profiles for  Vanuatu and Vityaz trenches demonstrated that bathymetry of the Vityaz Trench is generally shallower with depths not exceeding -6,100 m, while Vanuatu Trench reaches -7,000 m in values in the selected segment. Furthermore, the shape of the histogram varies by two trenches: Vityaz Trench has a 'bell-shape' data distribution with two peaks at range -3,500 to -3,700 m, and the second at -4,800 to -5,000 m, that is the majority of values are in general within the range of -5,000 to -3,000 m.\\
+ Here, there are 1605 samples (517, 653 and 435) recorded at the first peak with depth values from -3,300 to -4,000 and 839 sample observations (238, 304, 297) at depths from -4,500 to -5,200 m. The data distribution for the Vanuatu Trench is more even with slight increase of depth in the range of -2,200 to -800 m with total 1,353 samples recorded (281, 173, 230, 225, 245, 199 for the relevant bins on the histogram left), Fig. \ref{fig10}.\\
+Four various cartographic projections were used in this study for plotting maps to test GMT functionality: Mercator (Fig. \ref{fig1}, Fig. \ref{fig3}, Fig. \ref{fig6} and Fig. \ref{fig7}), Behrman cylindrical (Fig. \ref{fig2}), Cylindrical Stereographic (Fig. \ref{fig4}), Hammer retroazimuthal (Fig. \ref{fig5}). More detailed descriptions of the technical specifications of the projections can be find in further references \citep{Snyder}. \\
+The comparative analysis of the geophysical grids revealed structural characteristics of the two oceanic trenches, Vanuatu and Vityaz and adjacent oceanic crust of the north Fiji Basin. The coherency of the grids using gravity and vertical gravity gradient data confirms that the grids coincides well starting values of 10 mGal with the 3 to 10 meal gravity anomaly transition zone where the coherence increases. In the interval of 10 to 20 mGal the coherency declines to a very narrow interval, and correlation coincides until 100 mGal of the tested values. The gravity gradient coherency add new information to the interpretation of geodata covering active convergent margins in Southwest Pacific Ocean.\\
+The comparative analysis of the geomoprhic modelling of Vityaz and Vanuatu trenches results in following findings. The geometric form of the two trenches varies: Vityaz Trench has more flat wide bottom similar to a trough, with steeper gradient slope on the eastern flank (Fig. \ref{fig9}, A: upper plot). On the contrary, Vanuatu Trench (Fig. \ref{fig9}, B: lower plot) has more V-form classic shape for the trench with gentle shapes on both western and eastern slopes. \\
+The results of the comparison of the median values (red line on Fig. \ref{fig9}) of two trenches furthermore show that selected segment of the Vityaz Trench has shallower depths with maximal not exceeding -5,000 m while Vanuatu Trench is more deep with -6,000 m. The deepest values >5,000 m for Vityaz Trench give in total 413 values (238, 130, 29, 14, 2) samples. The surrounding relief of the two trenches varies: for the case of Vityaz Trench, the neighboring surface is rather flat while Vanuatu Trench is surrounded by more complex submarine relief of both North Fiji Basin (its eastern flank) and its western flank (Fig. \ref{fig9}).\\
+ Generally, a strong correlation of the trench's axes with borders of the two tectonics plates (Pacific Plate and Info-Austrlian Plate) is evident. This implies that the geomorphology of the trenches is strongly correlated with slabs, since continuation of the plate movements, lineaments and extend of fracture zones leads to the formation of the trench axis strongly determined by plates motions. The geological local settings, stretch of the tectonic slabs, complex tectonic processes and sedimentation of the Vanuatu and Vityaz trenches explain differences in their structure and geomorphic shape form.
+
+\section{Conclusions}
+
+Submarine geomorphology forms include among others seamount chains, continental plateaus, volcanic ridges, arcs, etc \citep{Burbank}. The Pacific Ocean is notable for its geographic immense size and impressive bathymetric expanse ($165.2 M km^{2}$ size), its deep seafloor (mean depth 4280 m) and highly variable biological surface productivity \citep{Linleyetal2017}. The Pacific Ocean seafloor is covered by a series of geomorphic forms whose origin is presently still discussed. This has motivated current study that involved a series of thematic maps and  models of the Vanuatu trench aimed at better understanding of its geomorphology.\\
+Presented research is directed toward better understanding geophysical, geological and geomorphic settings of the Vanuatu and Vityaz Trenches in their cross-sections, as well as technical aspects of mapping using GMT. The 3D and 2D models and statistical analysis on the bathymetry address in addition the question of topographic variations of the trench in its different parts caused by the tectonic slab dips and seismic activity in the Fiji Basin, South Pacific Ocean.\\
+In contrast to the ArcGIS based traditional approaches to the cartographic visualization and mapping (\cite{Suetova2005a}, \cite{Suetova2005b}, \cite{Klauco2013b}; \cite{Klauco2014}; \cite{Klauco2017}), the GMT is notable for its scripting based approach. Based on the GMT methodology presented in this paper, the proposed algorithm for geomorphic modelling and assessment of the trench's bathymetry using method of cross-section profiling provides a functional GMT-based framework for mapping and modelling raster data aimed at understanding and diagnosing how submarine geomorphology of the oceanic trench vary in its different segments. \\
+The main objective of the demonstrated study was to present and test a GMT approach to quantify the variability of the bathymetry in spatially distributed segments of the Vanuatu trench. The approach of the profile modelling was exemplified using enlarged two selected study square of the submarine topography of the Vanuatu trench as modelling targets.   However, the general mindset of the presented method is applicable to any other deep-sea  trenches or troughs. Technically, the study contributes towards the development of the bathymetric modelling and cartographic mapping using GMT. \\
+Besides cartographic fine solutions (variety of projections, colour palettes, layouts, data processing and modelling), GMT has an advantage of the included statistical modules as demonstrated in this approach. Statistical data processing is crucial part of the geoscience research aimed to visualize and highlight trends and correlations between phenomenas and variables. Examples of geostatistical modelling are diverse: maximum intersection (MAXI) method and 3D simulation technique for earthquakes modelling \citep{Theunissen}; agglomerative hierarchical clustering using R libraries (\cite{Herod}; \cite{Lemenkova201868}, \cite{Lemenkova201992}); similarity matrixes (\cite{Nunouraetal2015}; \cite{Lemenkova201871}); methods of regression analysis of data for visualizing their correlation or difference (\cite{Abrehdary}; \cite{Lemenkova201904}; \cite{Lemenkova201988}; \cite{Marcheseetal2017}). Comparing to these approaches, the convenience of the GMT consists in its embedded modules for statistical data interpretation (histograms, diagrams), that is, the data can be processed directly in GMT rather than converting them to the special statistical program. 
+
+\section{Discussions}
+
+The asymmetry of the hadal trenches reflects a phenomenon of tectonic plates subduction. Thus, as one plate bends down to the Earth's mantle, another plate is being deformed filling the growing empty space. The depths of trenches are influenced by many processes and factors controlling their actual shape and structure (\cite{Lemenkova201872}; \cite{Lemenkova201991}). The correlations of the geophysical setting and geomorphology of the oceanic trenches at the seafloor confirms that tectonic plates movements and slab geometry may be the main controlling factors of the form, gradient steepness and depths of the trench cross-section profiles. Other factors include are sedimentation and geological settings. A variety of the tectonic factors are directly affecting trench geomorphology and bathymetry: age and convergence rate of the the tectonic plates, intermediate slab dip, width of the sinking tectonic plate \citep{Stern}. \\
+As discussed by \citet{Faccennaetal2007}, the motion of oceanic plates is related to the subduction of cold and dense oceanic material into the mantle. Tectonic plates bounded by subduction zones move faster, as slabs strongly determine plate motions in two mechanisms: \citep{Conrad} either plates are pulled directly toward trenches by slabs  or plates are indirectly dragged by mantle circulation triggered by the subducting lithosphere. As a result of these complex tectonic processes, the trench is being directly affected and, as a result, its geomorphology acquires its current form. \\
+This brief sketch of the oceanic trench formation illustrates the complexity of its geomorphic development until it reaches actual form. Moreover, understanding its form and shape is being complicated by its inaccessibility: deep-sea trenches are the least accessible places of the Earth that can only be studied by indirect methods of modelling, remote sensing tool and advanced methods of data analysis without direct field observations. Current research contributed to the development of such methods and demonstrated tested functionality of the GMT cartographic toolset with an example of the Vanuatu Trench, Fiji.
+
+%% ###################################################################
+
+
+\begin{acknowledgement}
+This research was funded by the China Scholarship Council (CSC), State Oceanic Administration (SOA), Marine Scholarship of China, Grant Nr. 2016SOA002, China.
+\end{acknowledgement}
+
+%\bibliographystyle{...}
+%\bibliography{...}
+%\printbibliography[env=bibnumeric]
+\printbibliography
+\end{document}
